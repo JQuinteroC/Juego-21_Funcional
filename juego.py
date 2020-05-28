@@ -32,8 +32,12 @@ def valor_juego(mano):
     return valor_mano(mano)
 
 # Main
+def empezar_juego(mazo, jugador, repartidor):
+  jugar(mazo[4:], jugador+[mazo[0]]+[mazo[1]], repartidor+[mazo[2]]+[mazo[3]])
+  
+# Repartir cartas al jugador
 def jugar(mazo, jugador, repartidor):
-  print(jugador)
+  print('[Carta oculta]', [jugador[1:]])
   if len(mazo) > 2 and valor_juego(jugador) < 21 and input("Pulse 'p' para sacar otra carta, o cualquier letra para plantarse")=="p":
     jugar(mazo[1:], jugador+[mazo[0]], repartidor)
   else:
@@ -42,12 +46,12 @@ def jugar(mazo, jugador, repartidor):
     
 # Repartir cartas a la casa
 def repartir_casa(mazo, repartidor, jugador):
-    if valor_juego(repartidor) < 21:
-      repartir_casa(mazo[1:], repartidor+[mazo[0]], jugador)
-    elif valor_juego(jugador) > 21 or valor_juego(jugador) < valor_juego(repartidor):
+    if valor_juego(jugador) > 21 or valor_juego(jugador) <= valor_juego(repartidor):
       print("Cartas repartidor: \n" + str(repartidor))
       ganador(valor_juego(jugador),valor_juego(repartidor))
-
+    elif valor_juego(repartidor) < 21:
+      repartir_casa(mazo[1:], repartidor+[mazo[0]], jugador)
+    
 # Define ganador
 def ganador(jugador, repartidor):
   if jugador > 21:
@@ -64,4 +68,5 @@ def ganador(jugador, repartidor):
     return False
   return True
 
-jugar(mezclar(baraja()),[],[])
+empezar_juego(mezclar(baraja()),[],[])
+#jugar(mezclar(baraja()),[],[])
