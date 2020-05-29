@@ -18,7 +18,7 @@ def valor_carta(carta):
   else:
     return int(carta[0])
 
-# Retorna el valor de todas lcas cartas de una mano
+# Retorna el valor de todas las cartas de una mano
 def valor_mano(mano):
   if mano == []:
     return 0
@@ -37,36 +37,32 @@ def empezar_juego(mazo, jugador, repartidor):
   
 # Repartir cartas al jugador
 def jugar(mazo, jugador, repartidor):
-  print('[Carta oculta]', [jugador[1:]])
-  if len(mazo) > 2 and valor_juego(jugador) < 21 and input("Pulse 'p' para sacar otra carta, o cualquier letra para plantarse")=="p":
+  print("Cartas jugador: \n" + str(jugador))
+  print("Cartas repartidor: \n" + str(['(Carta oculta)', repartidor[1:]]) + "\n")
+
+  if len(mazo) > 2 and valor_juego(jugador) < 21 and input("Pulse 'l' para sacar otra carta, o cualquier letra para plantarse: ") == "l":
     jugar(mazo[1:], jugador+[mazo[0]], repartidor)
   else:
     print("Cartas jugador: \n" + str(jugador))
     repartir_casa(mazo, repartidor, jugador)
-    
+
 # Repartir cartas a la casa
 def repartir_casa(mazo, repartidor, jugador):
-    if valor_juego(jugador) > 21 or valor_juego(jugador) <= valor_juego(repartidor):
-      print("Cartas repartidor: \n" + str(repartidor))
-      ganador(valor_juego(jugador),valor_juego(repartidor))
-    elif valor_juego(repartidor) < 21:
-      repartir_casa(mazo[1:], repartidor+[mazo[0]], jugador)
+  if valor_juego(jugador) > 21 or valor_juego(jugador) <= valor_juego(repartidor):
+    print("Cartas repartidor: \n" + str(repartidor))
+    ganador(valor_juego(jugador),valor_juego(repartidor))
+  elif valor_juego(repartidor) < 21:
+    repartir_casa(mazo[1:], repartidor+[mazo[0]], jugador)
     
 # Define ganador
 def ganador(jugador, repartidor):
   if jugador > 21:
     print("Gana repartidor")
-    return False
   elif repartidor > 21:
     print("Gana jugador")
-    return False
   elif jugador > repartidor:
     print("Gana jugador")
-    return False
   else:
     print("Gana repartidor")
-    return False
-  return True
 
-empezar_juego(mezclar(baraja()),[],[])
-#jugar(mezclar(baraja()),[],[])
+empezar_juego(mezclar(baraja()), [], [])
